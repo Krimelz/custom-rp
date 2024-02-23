@@ -11,6 +11,7 @@ public partial class CameraRenderer
 	private partial void PrepareBuffer();
 
 #if UNITY_EDITOR
+	private const string ErrorShader = "Hidden/InternalErrorShader";
 	private static readonly ShaderTagId UnlitShaderTagId = new("SRPDefaultUnlit");
 	private static readonly ShaderTagId[] LegasyShaderTagIds =
 	{

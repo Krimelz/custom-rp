@@ -4,7 +4,6 @@ using UnityEngine.Rendering;
 public partial class CameraRenderer
 {
 	private const string BufferName = "Render Camera";
-	private const string ErrorShader = "Hidden/InternalErrorShader";
 
 	private CommandBuffer _buffer = new() { name = BufferName };
 	private ScriptableRenderContext _context;
