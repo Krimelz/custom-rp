@@ -6,7 +6,7 @@ public partial class CameraRenderer
 	private const string BufferName = "Render Camera";
 	private const string ErrorShader = "Hidden/InternalErrorShader";
 
-	private CommandBuffer _buffer = new CommandBuffer { name = BufferName };
+	private CommandBuffer _buffer = new() { name = BufferName };
 	private ScriptableRenderContext _context;
 	private CullingResults _cullingResults;
 	private Camera _camera;
@@ -15,6 +15,9 @@ public partial class CameraRenderer
 	{
 		_context = context;
 		_camera = camera;
+
+		PrepareBuffer();
+		PrepareForSceneView();
 
 		if (!Cull())
 		{
@@ -30,20 +33,29 @@ public partial class CameraRenderer
 
 	private bool Cull()
 	{
-		if (_camera.TryGetCullingParameters(out var parameters))
+		if (!_camera.TryGetCullingParameters(out var parameters))
 		{
-			_cullingResults = _context.Cull(ref parameters);
-			return true;
+			return false;
 		}
 
-		return false;
+		_cullingResults = _context.Cull(ref parameters);
+
+		return true;
+
 	}
 
 	private void Setup()
 	{
 		_context.SetupCameraProperties(_camera);
-		_buffer.ClearRenderTarget(true, true, Color.clear);
-		_buffer.BeginSample(BufferName);
+
+		CameraClearFlags flags = _camera.clearFlags;
+		_buffer.ClearRenderTarget(
+			flags <= CameraClearFlags.Depth, 
+			flags <= CameraClearFlags.Color, 
+			flags == CameraClearFlags.Color ? _camera.backgroundColor.linear : Color.clear
+		);
+
+		_buffer.BeginSample(SampleName);
 		ExecuteBuffer();
 	}
 
@@ -54,7 +66,7 @@ public partial class CameraRenderer
 			criteria = SortingCriteria.CommonOpaque
 		};
 		var drawingSettings = new DrawingSettings(
-			_unlitShaderTagId, 
+			UnlitShaderTagId, 
 			sortingSettings
 		);
 		var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
@@ -79,7 +91,7 @@ public partial class CameraRenderer
 
 	private void Submit()
 	{
-		_buffer.EndSample(BufferName);
+		_buffer.EndSample(SampleName);
 		ExecuteBuffer();
 		_context.Submit();
 	}

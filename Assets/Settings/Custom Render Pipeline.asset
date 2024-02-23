@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b493273efbaa642a30dcfae7c4c609, type: 3}
   m_Name: Custom Render Pipeline
   m_EditorClassIdentifier: 
-  baseMaterial: {fileID: 2100000, guid: bae084f7bea7eff4ea3454c934d3cf49, type: 2}
+  _defaultMaterial: {fileID: 2100000, guid: 4d2809992aa3cc543a997b7cad547f4b, type: 2}
