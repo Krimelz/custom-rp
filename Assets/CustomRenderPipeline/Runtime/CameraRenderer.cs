@@ -27,6 +27,7 @@ public partial class CameraRenderer
 		DrawVisibleGeometry();
 		DrawUnsupportedShaders();
 		DrawGizmos();
+		ApplyEffect();
 		Submit();
 	}
 
@@ -86,6 +87,10 @@ public partial class CameraRenderer
 			ref drawingSettings, 
 			ref filteringSettings
 		);
+	}
+
+	private void ApplyEffect()
+	{
 	}
 
 	private void Submit()
