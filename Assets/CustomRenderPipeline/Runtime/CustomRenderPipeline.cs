@@ -2,30 +2,33 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CustomRenderPipeline : RenderPipeline
+namespace CustomRenderPipeline.Runtime
 {
-	private bool _useDynamicBatching;
-	private bool _useGPUInstancing;
-
-	private CameraRenderer _renderer = new CameraRenderer();
-
-	public CustomRenderPipeline(bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher)
+	public class CustomRenderPipeline : RenderPipeline
 	{
-		_useDynamicBatching = useDynamicBatching;
-		_useGPUInstancing = useGPUInstancing;
-		GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
-	}
+		private bool _useDynamicBatching;
+		private bool _useGPUInstancing;
 
-	protected override void Render(ScriptableRenderContext context, Camera[] cameras)
-	{
+		private CameraRenderer _renderer = new CameraRenderer();
 
-	}
-
-	protected override void Render(ScriptableRenderContext context, List<Camera> cameras)
-	{
-		for (int i = 0; i < cameras.Count; i++)
+		public CustomRenderPipeline(bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher)
 		{
-			_renderer.Render(context, cameras[i], _useDynamicBatching, _useGPUInstancing);
+			_useDynamicBatching = useDynamicBatching;
+			_useGPUInstancing = useGPUInstancing;
+			GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
+		}
+
+		protected override void Render(ScriptableRenderContext context, Camera[] cameras)
+		{
+
+		}
+
+		protected override void Render(ScriptableRenderContext context, List<Camera> cameras)
+		{
+			for (int i = 0; i < cameras.Count; i++)
+			{
+				_renderer.Render(context, cameras[i], _useDynamicBatching, _useGPUInstancing);
+			}
 		}
 	}
 }
