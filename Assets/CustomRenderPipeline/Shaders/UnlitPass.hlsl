@@ -9,6 +9,7 @@ SAMPLER(sampler_BaseTexture);
 UNITY_INSTANCING_BUFFER_START(UnityPerMaterial)
     UNITY_DEFINE_INSTANCED_PROP(float4, _BaseTexture_ST)
     UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
+    UNITY_DEFINE_INSTANCED_PROP(float, _Cutoff)
 UNITY_INSTANCING_BUFFER_END(UnityPerMaterial)
 
 struct Attributes 
@@ -47,8 +48,13 @@ float4 UnlitPassFragment(Varyings input) : SV_TARGET
 
     float4 baseTexture = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, input.baseUV);
     float4 baseColor = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseColor);
+    float4 base = baseTexture * baseColor;
 
-    return baseTexture * baseColor;
+#ifdef _CLIPPING
+    clip(base.a - UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Cutoff));
+#endif
+
+    return base;
 }
 
 #endif

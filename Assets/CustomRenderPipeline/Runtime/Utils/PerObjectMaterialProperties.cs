@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace CustomRenderPipeline.Runtime.Utils
 {
-	[DisallowMultipleComponent]
 	public class PerObjectMaterialProperties : MonoBehaviour
 	{
 		protected static MaterialPropertyBlock _block;
