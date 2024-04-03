@@ -15,7 +15,10 @@ Shader "Custom RP/Unlit"
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" }
+        Tags
+        {
+            "LightMode" = "CustomUnlit"
+        }
 
         Pass
         {

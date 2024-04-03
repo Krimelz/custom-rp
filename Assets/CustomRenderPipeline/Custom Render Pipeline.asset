@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Custom Render Pipeline
   m_EditorClassIdentifier: 
   _defaultMaterial: {fileID: 2100000, guid: 4d2809992aa3cc543a997b7cad547f4b, type: 2}
-  _screenMaterial: {fileID: 0}
   _useDynamicBatching: 0
   _useGPUInstancing: 1
   _useSRPBatcher: 1

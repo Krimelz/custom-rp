@@ -29,7 +29,6 @@ namespace CustomRenderPipeline.Runtime
 			DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
 			DrawUnsupportedShaders();
 			DrawGizmos();
-			ApplyEffect();
 			Submit();
 		}
 
@@ -93,10 +92,6 @@ namespace CustomRenderPipeline.Runtime
 				ref drawingSettings,
 				ref filteringSettings
 			);
-		}
-
-		private void ApplyEffect()
-		{
 		}
 
 		private void Submit()
