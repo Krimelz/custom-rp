@@ -11,6 +11,7 @@ namespace CustomRenderPipeline.Runtime
 		private ScriptableRenderContext _context;
 		private CullingResults _cullingResults;
 		private Camera _camera;
+		private Lighting _lighting = new();
 
 		public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
 		{
@@ -26,6 +27,7 @@ namespace CustomRenderPipeline.Runtime
 			}
 
 			Setup();
+			_lighting.Setup(context, _cullingResults);
 			DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
 			DrawUnsupportedShaders();
 			DrawGizmos();
@@ -74,6 +76,7 @@ namespace CustomRenderPipeline.Runtime
 				enableDynamicBatching = useDynamicBatching,
 				enableInstancing = useGPUInstancing,
 			};
+			drawingSettings.SetShaderPassName(1, LitShaderTagId);
 			var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 
 			_context.DrawRenderers(

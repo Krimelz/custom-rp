@@ -15,15 +15,16 @@ namespace CustomRenderPipeline.Runtime
 #if UNITY_EDITOR
 		private const string ErrorShader = "Hidden/InternalErrorShader";
 		private static readonly ShaderTagId UnlitShaderTagId = new("CustomUnlit");
+		private static readonly ShaderTagId LitShaderTagId = new("CustomLit");
 		private static readonly ShaderTagId[] LegasyShaderTagIds =
 		{
-		new("Always"),
-		new("ForwardBase"),
-		new("PrepassBase"),
-		new("Vertex"),
-		new("VertexLMRGBM"),
-		new("VertexLM"),
-	};
+			new("Always"),
+			new("ForwardBase"),
+			new("PrepassBase"),
+			new("Vertex"),
+			new("VertexLMRGBM"),
+			new("VertexLM"),
+		};
 
 		private static Material _errorMaterial;
 
