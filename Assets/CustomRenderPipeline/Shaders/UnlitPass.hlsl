@@ -50,9 +50,9 @@ float4 UnlitPassFragment(Varyings input) : SV_TARGET
     float4 baseColor = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseColor);
     float4 base = baseTexture * baseColor;
 
-#ifdef _CLIPPING
+    #ifdef _CLIPPING
     clip(base.a - UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Cutoff));
-#endif
+    #endif
 
     return base;
 }
