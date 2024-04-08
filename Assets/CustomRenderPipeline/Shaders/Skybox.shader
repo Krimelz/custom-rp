@@ -29,38 +29,7 @@ Shader "Custom RP/Skybox"
             #pragma target 3.5
             #pragma vertex SkyPassVertex
             #pragma fragment SkyPassFragment
-            #include "../ShaderLibrary/Common.hlsl"
-
-            float4 _Color1;
-            float4 _Color2;
-            float _Blend;
-
-            struct Attributes
-            {
-                float3 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct Varyings
-            {
-                float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            Varyings SkyPassVertex(Attributes input)
-            {
-                Varyings output;
-
-                output.vertex = TransformObjectToHClip(TransformObjectToWorld(input.vertex));
-                output.uv = input.uv;
-
-                return output;
-            }
-
-            float4 SkyPassFragment(Varyings input) : SV_TARGET
-            {
-                return lerp(_Color1, _Color2, saturate((input.uv.y + 1) * 0.5 + _Blend));
-            }
+            #include "SkyboxPass.hlsl"
 
             ENDHLSL
         }
