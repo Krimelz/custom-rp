@@ -2,9 +2,9 @@ Shader "Custom RP/Skybox"
 {
     Properties
     {
-        _Color1 ("Color 1", Color) = (0.0, 0.0, 0.0, 0.0)
-        _Color2 ("Color 2", Color) = (1.0, 1.0, 1.0, 1.0)
-        _Blend ("Lerp", Range(-1.0, 1.0)) = 0.0
+        _TopColor ("Top Color", Color) = (1.0, 1.0, 1.0, 1.0)
+        _BottomColor ("Bottom Color", Color) = (0.0, 0.0, 0.0, 1.0)
+        _BlendFactor ("Lerp", Range(-1.0, 1.0)) = 0.0
     }
 
     SubShader

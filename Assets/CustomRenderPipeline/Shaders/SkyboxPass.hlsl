@@ -4,9 +4,9 @@
 #include "../ShaderLibrary/Common.hlsl"
 
 CBUFFER_START(UnityPerMaterial)
-    float4 _Color1;
-    float4 _Color2;
-    float _Blend;
+    float4 _TopColor;
+    float4 _BottomColor;
+    float _BlendFactor;
 CBUFFER_END
 
 struct Attributes
@@ -40,7 +40,7 @@ float4 SkyPassFragment(Varyings input) : SV_TARGET
 {
     UNITY_SETUP_INSTANCE_ID(input);
 
-    return lerp(_Color1, _Color2, saturate((input.uv.y + 1) * 0.5 + _Blend));
+    return lerp(_BottomColor, _TopColor, saturate((input.uv.y + 1) * 0.5 + _BlendFactor));
 }
 
 #endif // CUSTOM_SKYBOX_PASS_INCLUDED
