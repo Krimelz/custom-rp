@@ -7,13 +7,20 @@ namespace CustomRenderPipeline.Runtime
 	{
 		private const string BufferName = "Render Camera";
 
-		private CommandBuffer _buffer = new() { name = BufferName };
+		private static readonly int FrameBufferId = Shader.PropertyToID("_FrameBuffer");
+
+		private CommandBuffer _commandBuffer = new() 
+		{ 
+			name = BufferName 
+		};
 		private ScriptableRenderContext _context;
 		private CullingResults _cullingResults;
 		private Camera _camera;
 		private Lighting _lighting = new();
+		private PostEffectsStack _postEffectsStack = new PostEffectsStack();
 
-		public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
+		public void Render(ScriptableRenderContext context, Camera camera, 
+			PostEffectsSettings postEffectsSettings, bool useDynamicBatching, bool useGPUInstancing)
 		{
 			_context = context;
 			_camera = camera;
@@ -28,9 +35,16 @@ namespace CustomRenderPipeline.Runtime
 
 			Setup();
 			_lighting.Setup(context, _cullingResults);
+			_postEffectsStack.Setup(context, camera, postEffectsSettings);
 			DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
 			DrawUnsupportedShaders();
-			DrawGizmos();
+			DrawGizmosBeforeEffects();
+			if (_postEffectsStack.IsActive)
+			{
+				_postEffectsStack.Render(FrameBufferId);
+			}
+			DrawGizmosAfterEffects();
+			Cleanup();
 			Submit();
 		}
 
@@ -52,13 +66,29 @@ namespace CustomRenderPipeline.Runtime
 			_context.SetupCameraProperties(_camera);
 
 			CameraClearFlags flags = _camera.clearFlags;
-			_buffer.ClearRenderTarget(
+
+			if (_postEffectsStack.IsActive)
+			{
+				if (flags > CameraClearFlags.Color)
+				{
+					flags = CameraClearFlags.Color;
+				}
+
+				_commandBuffer.GetTemporaryRT(FrameBufferId, _camera.pixelWidth, _camera.pixelHeight, 
+					32, FilterMode.Bilinear, RenderTextureFormat.Default
+				);
+				_commandBuffer.SetRenderTarget(FrameBufferId, 
+					RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store
+				);
+			}
+
+			_commandBuffer.ClearRenderTarget(
 				flags <= CameraClearFlags.Depth,
 				flags <= CameraClearFlags.Color,
 				flags == CameraClearFlags.Color ? _camera.backgroundColor.linear : Color.clear
 			);
 
-			_buffer.BeginSample(SampleName);
+			_commandBuffer.BeginSample(SampleName);
 			ExecuteBuffer();
 		}
 
@@ -99,15 +129,23 @@ namespace CustomRenderPipeline.Runtime
 
 		private void Submit()
 		{
-			_buffer.EndSample(SampleName);
+			_commandBuffer.EndSample(SampleName);
 			ExecuteBuffer();
 			_context.Submit();
 		}
 
 		private void ExecuteBuffer()
 		{
-			_context.ExecuteCommandBuffer(_buffer);
-			_buffer.Clear();
+			_context.ExecuteCommandBuffer(_commandBuffer);
+			_commandBuffer.Clear();
+		}
+
+		private void Cleanup()
+		{
+			if (_postEffectsStack.IsActive)
+			{
+				_commandBuffer.ReleaseTemporaryRT(FrameBufferId);
+			}
 		}
 	}
 }

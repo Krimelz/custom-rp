@@ -10,9 +10,12 @@ namespace CustomRenderPipeline.Runtime
 		private bool _useGPUInstancing;
 
 		private CameraRenderer _renderer = new CameraRenderer();
+		private PostEffectsSettings _postEffectsSettings;
 
-		public CustomRenderPipeline(bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher)
+		public CustomRenderPipeline(PostEffectsSettings postEffectsSettings, 
+			bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher)
 		{
+			_postEffectsSettings = postEffectsSettings;
 			_useDynamicBatching = useDynamicBatching;
 			_useGPUInstancing = useGPUInstancing;
 			GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
@@ -28,7 +31,7 @@ namespace CustomRenderPipeline.Runtime
 		{
 			for (int i = 0; i < cameras.Count; i++)
 			{
-				_renderer.Render(context, cameras[i], _useDynamicBatching, _useGPUInstancing);
+				_renderer.Render(context, cameras[i], _postEffectsSettings, _useDynamicBatching, _useGPUInstancing);
 			}
 		}
 	}

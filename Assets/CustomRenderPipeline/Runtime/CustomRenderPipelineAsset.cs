@@ -8,6 +8,8 @@ namespace CustomRenderPipeline.Runtime
 	{
 		[SerializeField]
 		private Material _defaultMaterial;
+		[SerializeField]
+		private PostEffectsSettings _postEffectsSettings;
 
 		[SerializeField]
 		bool _useDynamicBatching = true;
@@ -21,6 +23,7 @@ namespace CustomRenderPipeline.Runtime
 		protected override RenderPipeline CreatePipeline()
 		{
 			return new CustomRenderPipeline(
+				_postEffectsSettings,
 				_useDynamicBatching,
 				_useGPUInstancing,
 				_useSRPBatcher

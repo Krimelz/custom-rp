@@ -8,7 +8,8 @@ namespace CustomRenderPipeline.Runtime
 	public partial class CameraRenderer
 	{
 		private partial void DrawUnsupportedShaders();
-		private partial void DrawGizmos();
+		private partial void DrawGizmosBeforeEffects();
+		private partial void DrawGizmosAfterEffects();
 		private partial void PrepareForSceneView();
 		private partial void PrepareBuffer();
 
@@ -51,11 +52,18 @@ namespace CustomRenderPipeline.Runtime
 			_context.DrawRenderers(_cullingResults, ref drawingSettings, ref filteringSettings);
 		}
 
-		private partial void DrawGizmos()
+		private partial void DrawGizmosBeforeEffects()
 		{
 			if (Handles.ShouldRenderGizmos())
 			{
 				_context.DrawGizmos(_camera, GizmoSubset.PreImageEffects);
+			}
+		}
+
+		private partial void DrawGizmosAfterEffects()
+		{
+			if (Handles.ShouldRenderGizmos())
+			{
 				_context.DrawGizmos(_camera, GizmoSubset.PostImageEffects);
 			}
 		}
@@ -71,7 +79,7 @@ namespace CustomRenderPipeline.Runtime
 		private partial void PrepareBuffer()
 		{
 			Profiler.BeginSample("Editor Only");
-			_buffer.name = SampleName = _camera.name;
+			_commandBuffer.name = SampleName = _camera.name;
 			Profiler.EndSample();
 		}
 #else

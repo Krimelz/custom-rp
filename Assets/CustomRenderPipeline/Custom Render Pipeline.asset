@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b493273efbaa642a30dcfae7c4c609, type: 3}
   m_Name: Custom Render Pipeline
   m_EditorClassIdentifier: 
-  _defaultMaterial: {fileID: 2100000, guid: 4d2809992aa3cc543a997b7cad547f4b, type: 2}
+  _defaultMaterial: {fileID: 2100000, guid: b3ea1f127e2d8d544a202fbde3f42e71, type: 2}
+  _postEffectsSettings: {fileID: 11400000, guid: 022951e63112ad44da579386c1723d57, type: 2}
   _useDynamicBatching: 0
   _useGPUInstancing: 1
   _useSRPBatcher: 1
