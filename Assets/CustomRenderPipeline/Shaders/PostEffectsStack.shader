@@ -46,5 +46,17 @@ Shader "Hidden/Custom RP/Post Effects Stack"
 
 			ENDHLSL
 		}
+
+		Pass
+		{
+			Name "Posterization"
+
+			HLSLPROGRAM
+
+			#pragma vertex DefaultPassVertex
+			#pragma fragment PosterizationPassFragment
+
+			ENDHLSL
+		}
 	}
 }

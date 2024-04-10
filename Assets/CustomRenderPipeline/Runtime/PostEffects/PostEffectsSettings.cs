@@ -12,12 +12,18 @@ public struct PixelationSettings
 public class PostEffectsSettings : ScriptableObject
 {
 	[SerializeField]
-	private Shader _shader = default;
-
+	private Shader _shader;
 	[SerializeField]
-	private Pass _pass;
-	[field: SerializeField]
-	public PixelationSettings PixelationSettings { get; set; }
+	private Pass[] _passes;
+
+	[field: SerializeField, Range(2, 512)]
+	public int PixelationFactor { get; set; } = 32;
+
+	[field: SerializeField, Range(-8f, 8f)]
+	public float GrayscaleFactor { get; set; } = 1f;
+
+	[field: SerializeField, Range(1f, 32f)]
+	public float PosterizationFactor { get; set; } = 4f;
 
 	[NonSerialized]
 	private Material _material;
@@ -36,5 +42,5 @@ public class PostEffectsSettings : ScriptableObject
 		}
 	}
 
-	public Pass Pass => _pass;
+	public Pass[] Passes => _passes;
 }

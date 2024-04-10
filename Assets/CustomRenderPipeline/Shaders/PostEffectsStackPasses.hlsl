@@ -5,6 +5,8 @@ TEXTURE2D(_PostEffectSource);
 SAMPLER(sampler_linear_clamp);
 
 float _PixelationFactor;
+float _GrayscaleFactor;
+float _PosterizationFactor;
 
 struct Varyings
 {
@@ -57,8 +59,16 @@ float4 GrayscalePassFragment(Varyings input) : SV_TARGET
 {
 	float4 source = GetSource(input.screenUV);
 	float avg = (source.r + source.g + source.b) / 3.0;
-
+    avg = _GrayscaleFactor * avg - _GrayscaleFactor / 2.0 + 0.5;
+	
 	return float4(avg, avg, avg, 1.0);
+}
+
+float4 PosterizationPassFragment(Varyings input) : SV_TARGET
+{
+    float4 source = GetSource(input.screenUV);
+    
+    return round(source * _PosterizationFactor) / _PosterizationFactor;
 }
 
 #endif // CUSTOM_POST_EFFECTS_PASSES_INCLUDED

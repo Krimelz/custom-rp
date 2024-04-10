@@ -2,5 +2,6 @@
 {
 	Copy,
 	Pixelation,
-	Grayscale
+	Grayscale,
+	Posterization,
 }
