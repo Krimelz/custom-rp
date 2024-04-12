@@ -7,16 +7,15 @@ namespace CustomRenderPipeline.Runtime
 {
 	public partial class CameraRenderer
 	{
-		private partial void DrawUnsupportedShaders();
-		private partial void DrawGizmosBeforeEffects();
-		private partial void DrawGizmosAfterEffects();
-		private partial void PrepareForSceneView();
-		private partial void PrepareBuffer();
+		partial void DrawUnsupportedShaders();
+		partial void DrawGizmosBeforeEffects();
+		partial void DrawGizmosAfterEffects();
+		partial void PrepareForSceneView();
+		partial void PrepareBuffer();
 
 #if UNITY_EDITOR
 		private const string ErrorShader = "Hidden/InternalErrorShader";
-		private static readonly ShaderTagId UnlitShaderTagId = new("CustomUnlit");
-		private static readonly ShaderTagId LitShaderTagId = new("CustomLit");
+
 		private static readonly ShaderTagId[] LegasyShaderTagIds =
 		{
 			new("Always"),
@@ -31,7 +30,7 @@ namespace CustomRenderPipeline.Runtime
 
 		private string SampleName { get; set; }
 
-		private partial void DrawUnsupportedShaders()
+		partial void DrawUnsupportedShaders()
 		{
 			if (_errorMaterial == null)
 			{
@@ -52,7 +51,7 @@ namespace CustomRenderPipeline.Runtime
 			_context.DrawRenderers(_cullingResults, ref drawingSettings, ref filteringSettings);
 		}
 
-		private partial void DrawGizmosBeforeEffects()
+		partial void DrawGizmosBeforeEffects()
 		{
 			if (Handles.ShouldRenderGizmos())
 			{
@@ -60,7 +59,7 @@ namespace CustomRenderPipeline.Runtime
 			}
 		}
 
-		private partial void DrawGizmosAfterEffects()
+		partial void DrawGizmosAfterEffects()
 		{
 			if (Handles.ShouldRenderGizmos())
 			{
@@ -68,7 +67,7 @@ namespace CustomRenderPipeline.Runtime
 			}
 		}
 
-		private partial void PrepareForSceneView()
+		partial void PrepareForSceneView()
 		{
 			if (_camera.cameraType == CameraType.SceneView)
 			{
@@ -76,7 +75,7 @@ namespace CustomRenderPipeline.Runtime
 			}
 		}
 
-		private partial void PrepareBuffer()
+		partial void PrepareBuffer()
 		{
 			Profiler.BeginSample("Editor Only");
 			_commandBuffer.name = SampleName = _camera.name;

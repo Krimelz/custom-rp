@@ -3,11 +3,11 @@ using UnityEngine;
 
 public partial class PostEffectsStack
 {
-	private partial void ApplySceneViewState();
+	partial void ApplySceneViewState();
 
 #if UNITY_EDITOR
 
-	private partial void ApplySceneViewState()
+	partial void ApplySceneViewState()
 	{
 		if (_camera.cameraType == CameraType.SceneView 
 			&& !SceneView.currentDrawingSceneView.sceneViewState.showImageEffects)

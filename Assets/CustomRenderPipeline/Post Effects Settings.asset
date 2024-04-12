@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Post Effects Settings
   m_EditorClassIdentifier: 
   _shader: {fileID: 4800000, guid: 0454b414febf5e1488bebdd09718d654, type: 3}
-  _passes: 0200000003000000
-  <PixelationFactor>k__BackingField: 512
-  <GrayscaleFactor>k__BackingField: 3.86
-  <PosterizationFactor>k__BackingField: 5.1
+  _passes: 
+  <PixelationFactor>k__BackingField: 175
+  <GrayscaleFactor>k__BackingField: 2
+  <PosterizationFactor>k__BackingField: 5

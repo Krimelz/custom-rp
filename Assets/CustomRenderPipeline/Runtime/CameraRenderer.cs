@@ -8,6 +8,8 @@ namespace CustomRenderPipeline.Runtime
 		private const string BufferName = "Render Camera";
 
 		private static readonly int FrameBufferId = Shader.PropertyToID("_FrameBuffer");
+		private static readonly ShaderTagId UnlitShaderTagId = new("CustomUnlit");
+		private static readonly ShaderTagId LitShaderTagId = new("CustomLit");
 
 		private CommandBuffer _commandBuffer = new() 
 		{ 
